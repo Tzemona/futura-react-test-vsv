@@ -5,7 +5,7 @@ import './App.css';
 const ALLCATEGORIESURL = 'https://api.chucknorris.io/jokes/categories'
 const RANDOMJOKEBYCATURL = 'https://api.chucknorris.io/jokes/random?category=' // remember to fill this
 const ALLLJOKESBYKEYWORD = 'https://api.chucknorris.io/jokes/search?query=' // remember to fill this
-const launchErrorAlert = () => setTimeout(() => window.alert('errore!'), 500) 
+const launchErrorAlert = () => setTimeout(() => window.alert('errore!'), 500)
 
 // classe 'App-logo-spinning' durante il caricamento, altrimenti classe 'App-logo'
 const Logo = ({ loading }) => {
@@ -13,7 +13,7 @@ const Logo = ({ loading }) => {
     <img
       src={logo}
       alt='interactive-logo'
-      // ... 
+      className={`App-logo${this.state.loading ? " App-logo-spinning" : ""}`} alt="logo"
     />
   )
 }
@@ -32,7 +32,8 @@ const CategoriesList = ({ categories, onCategoryClick }) => {
 }
 
 const Joke = ({ value, categories }) => {
-  return null
+  render(){
+  return(
   // <div className="Joke">
   //   <code className="Joke-Value">{value}</code>
   //     per ciascun elemento di 'categories', renderizzare:
@@ -40,57 +41,72 @@ const Joke = ({ value, categories }) => {
   //       <code>{* QUI LA STRINGA DELLA SINGOLA CATEGORIA *}</code>
   //     </span>
   // </div>
+  );
+ }
 }
 
-// class App extends React.Component {
-function App() {
+
+const response = await fetch(`${ALLLJOKESBYKEYWORD}${testo}`)
+
+class App extends React.Component {
+  // function App() {
   // qui tutto ciò che serve al componente per essere inizializzato
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: true,
+      error: false,
+      categories: [],
+      selectedCategory: '',
+      fetchedJoke: {},
+      testo:'',
+    }
+  }
+}
+// getAllCategories
+// funzione che deve recuperare l'array di tutte le categorie esistenti e salvarlo
 
-  // getAllCategories
-  // funzione che deve recuperare l'array di tutte le categorie esistenti e salvarlo
+// onCategoryClick
+// funzione richiamata al click del componente CategoryButton
 
-  // onCategoryClick
-  // funzione richiamata al click del componente CategoryButton
+// getRandomJokeByCat
+// funzione che recupera una singola barzelletta e la salva
 
-  // getRandomJokeByCat
-  // funzione che recupera una singola barzelletta e la salva
+// getJokeByKeyword
+// funzione che recupera le barzellette contenenti la parola chiave
+// digitata nel campo di testo
+getJokeByKeyword = () => {
+  const response = await 
+  fetch(`${ALLLJOKESBYKEYWORD}${this.state.testo}`)
+}
 
-  // getJokeByKeyword
-  // funzione che recupera le barzellette contenenti la parola chiave
-  // digitata nel campo di testo
+onInputTextChange = (event) => {
+  this.setState({
+    value: event.target.value
+  });
 
-  // onInputTextChange
-  // handler per l'input di testo
 
   // qui i lifecycle methods
 
-  // render () {
+  render() {
     return (
       <div className="App">
         <div className="App-header">
-          <Logo
-            // ...
+          <Logo/>
+          <input type="search" id="search" name="search" placeholder="Enter keyword here"
+            value={this.state.testo} onChange={this.onInputTextChange}
           />
-          <input
-            type="search"
-            id="search" name="search"
-            placeholder="Enter keyword here"
-            // ...
-          />
-          <button
-            className="Search-Button"
-            // ...
-          >
+          <button className="Search-Button" type= "button" onClick={getJokeByKeyword}>
             <code>CLICK TO SEARCH!</code>
           </button>
           <code>or: </code>
           <CategoriesList
-            // ...
+          // ...
           />
         </div>
         <div className="Content">
           <img
-            src="https://api.chucknorris.io/img/chucknorris_logo_coloured_small@2x.png" 
+            src="https://api.chucknorris.io/img/chucknorris_logo_coloured_small@2x.png"
             className="Chuck-Logo"
             alt="chuck-logo"
           />
@@ -104,18 +120,18 @@ function App() {
           </code>
           <button
             className="Random-Button"
-            // ...
+          // ...
           >
             <h2>GET RANDOM JOKE FOR SELECTED CATEGORY</h2>
           </button>
           {/* <Joke ... /> */}
         </div>
         <div className="footer">
-        <code>Esame di React per cfp-futura. Grazie ad <a href="https://api.chucknorris.io">api.chucknorris.io</a> per l'immagine e le api. Docente: Vito Vitale. Studente: </code>
+          <code>Esame di React per cfp-futura. Grazie ad <a href="https://api.chucknorris.io">api.chucknorris.io</a> per l'immagine e le api. Docente: Vito Vitale. Studente: Simona Benigni</code>
         </div>
       </div>
     );
-  // }
-};
+    // }
+  };
 
-export default App;
+  export default App;
