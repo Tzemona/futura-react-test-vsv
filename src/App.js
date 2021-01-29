@@ -120,7 +120,7 @@ function App() {
     } catch (err) {
 
       errorX = true
-      console.log("Tipo di errore " , err)
+      console.log("ERROR TYPE " , err)
 
     } finally {
 
